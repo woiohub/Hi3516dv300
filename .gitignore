@@ -1,0 +1,10 @@
+*.o
+*.a
+*.so
+*.wk
+sample_vio_nnie
+build/
+.DS_Store
+.vscode/
+*.swp
+*.bak

@@ -1,14 +1,14 @@
-CROSS_COMPILE = arm-himix200-linux-
+CROSS_COMPILE ?= arm-himix200-linux-
 CC = $(CROSS_COMPILE)gcc
 AR = $(CROSS_COMPILE)ar
 LD = $(CROSS_COMPILE)ld
 
-SDK_PATH = /home/woio/hisi/Hi3516CV500_SDK_V2.0.2.0
+SDK_PATH ?= $(HOME)/hisi/Hi3516CV500_SDK_V2.0.2.0
 MPP_PATH = $(SDK_PATH)/smp/a7_linux/mpp
-SAMPLE_PATH = /home/woio/test/sample
+SAMPLE_PATH ?= $(HOME)/test/sample
 
 TARGET = sample_vio_nnie
-TARGET_PATH = /home/woio/test/project
+TARGET_PATH = .
 
 SMP_SRCS := src/main.c
 SMP_SRCS += $(MPP_PATH)/sample/common/sample_comm_sys.c
@@ -56,10 +56,13 @@ LDFLAGS += -lm -lpthread -ldl
 all: $(TARGET)
 
 $(TARGET): $(SMP_SRCS)
+	@echo "Compiling $(TARGET)..."
 	$(CC) $(CFLAGS) -o $(TARGET_PATH)/$@ $^ $(LDFLAGS)
+	@echo "Build completed: $(TARGET_PATH)/$@"
 
 clean:
 	rm -f $(TARGET_PATH)/$(TARGET)
+	rm -rf $(TARGET_PATH)/build
 
 install:
 	cp $(TARGET_PATH)/$(TARGET) /home/woio/hi3516_nfs/
